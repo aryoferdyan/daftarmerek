@@ -40,20 +40,19 @@
                     </td>
                 </tr>
 
-<tr>
+                <tr>
                     <td>Surat</td>
                     <td>
-                        <?php if ($surat):?>
-                            <embed src="<?php echo base_url('./uploads/'. $surat);?>" type="application/pdf" width="100%" height="600px" />
-                        <?php else:?>
+                        <?php if ($surat): ?>
+                            <a class="btn btn-primary btn-sm" href="<?php echo base_url('./uploads/' . $surat); ?>" target="_blank">Lihat Surat</a>
+                        <?php else: ?>
                             No Surat Available
-                        <?php endif;?>
+                        <?php endif; ?>
                     </td>
                 </tr>
-                
 
                 <tr>
-                    <td>Tanda Tangan</td>
+                    <td>Ttd</td>
                     <td>
 						<?php if ($logo): ?>
                             <img src="<?php echo base_url('./uploads/' . $ttd); ?>" alt="Tanda Tangan" style="max-width: 200px; max-height: 200px;">
@@ -63,28 +62,15 @@
                     </td>
                 </tr>
 
-                <!-- <tr>
-                    <td>User</td>
+                <tr>
+                    <td>Id User</td>
                     <td><?php echo $id_user; ?></td>
-                </tr> -->
+                </tr>
 
                 <tr>
                     <td>Status</td>
-                    <td>
-                        <?php 
-                            if ($status == 0) {
-                                echo "DIAJUKAN";
-                            } elseif ($status == 1) {
-                                echo "DISETUJUI";
-                            } elseif ($status == 2) {
-                                echo "PERLU REVISI";
-                            } elseif ($status == 3) {
-                                echo "DITOLAK";
-                            }
-                       ?>
-                    </td>
+                    <td><?php echo $status; ?></td>
                 </tr>
-                
 
                 <tr>
                     <td></td>

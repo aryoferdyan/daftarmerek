@@ -39,11 +39,11 @@
                 if (empty($status_login)) {
                     $message = "Silahkan login untuk masuk ke aplikasi";
                 } else {
-                    $message = $status_login;
+                    $message = "<strong style='color: red;'>".$status_login."</strong>";
                 }
                 ?>
                 <p class="login-box-msg"><?php echo $message; ?></p>
-
+                
                 <!--<form action="<?php echo base_url(); ?>/adminlte/index2.html" method="post">-->
                 <?php echo form_open('auth/cheklogin'); ?>
                 <div class="form-group has-feedback">

@@ -10,8 +10,9 @@
         
         <div class="box-body">
         <div style="padding-bottom: 10px;"'>
-        <?php echo anchor(site_url('permohonan/create'), '<i class="fa fa-wpforms" aria-hidden="true"></i> Ajukan Permohonan', 'class="btn btn-primary btn-sm"'); ?>
-        </div>
+        <?php echo anchor(site_url('permohonan/create'), '<i class="fa fa-wpforms" aria-hidden="true"></i> Ajukan Permohonan', 'class="btn btn-danger btn-sm"'); ?>
+		<?php echo anchor(site_url('permohonan/excel'), '<i class="fa fa-file-excel-o" aria-hidden="true"></i> Export Ms Excel', 'class="btn btn-success btn-sm"'); ?>
+		<?php echo anchor(site_url('permohonan/word'), '<i class="fa fa-file-word-o" aria-hidden="true"></i> Export Ms Word', 'class="btn btn-primary btn-sm"'); ?></div>
         <table class="table table-bordered table-striped" id="mytable">
             <thead>
                 <tr>
@@ -23,7 +24,7 @@
 		    <th>Logo</th>
 		    <th>Surat</th>
 		    <th>Ttd</th>
-		    <!-- <th>Id User</th> -->
+		    <th>Id User</th>
 		    <th>Status</th>
 		    <th width="200px">Action</th>
                 </tr>
@@ -99,17 +100,17 @@
                         },
 
                         
-                        //{"data": "id_user"},
+                        {"data": "id_user"},
                         {"data": "status",
                             render: function(data, type) {
-                                if (data == 0){
-                                    return '<button class="btn btn-primary" readonly>DIAJUKAN</button>';
-                                } else if (data == 1){
-                                    return '<button class="btn btn-success" readonly>DISETUJUI</button>';
+                                if (data == 1){
+                                    return '<button class="btn btn-danger" readonly>DIAJUKAN</button>';
                                 } else if (data == 2){
-                                    return '<button class="btn btn-warning">PERLU PERBAIKAN</button>';
+                                    return '<button class="btn btn-info" readonly>PERLU PERBAIKAN</button>';
                                 } else if (data == 3){
-                                    return '<button class="btn btn-danger">DITOLAK</button>';
+                                    return '<button class="btn btn-cancel">DITOLAK</button>';
+                                } else {
+                                    return '<button class="btn btn-sucsess">DISETUJUI</button>';
                                 }
                             }
                         
@@ -132,17 +133,17 @@
             });
         </script>
         <script>
-            // $(document).ready(function() {
-            //     // Inisialisasi Fancybox untuk tindakan klik pada gambar
-            //     $('.logo-popup').fancybox({
-            //         // Opsi Fancybox
-            //         // Anda dapat menyesuaikan opsi sesuai kebutuhan
-            //         afterShow: function(instance, current) {
-            //             // Tambahkan tombol "X" untuk menutup popup
-            //             $('.fancybox-button--close').html('<button type="button" class="btn btn-default fancybox-close-small">X</button>');
-            //         }
-            //     });
-            // });
+            $(document).ready(function() {
+                // Inisialisasi Fancybox untuk tindakan klik pada gambar
+                $('.logo-popup').fancybox({
+                    // Opsi Fancybox
+                    // Anda dapat menyesuaikan opsi sesuai kebutuhan
+                    afterShow: function(instance, current) {
+                        // Tambahkan tombol "X" untuk menutup popup
+                        $('.fancybox-button--close').html('<button type="button" class="btn btn-default fancybox-close-small">X</button>');
+                    }
+                });
+            });
 
           
     //         $(document).on('click', '.btn-view-ttd', function() {
