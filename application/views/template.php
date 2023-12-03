@@ -93,15 +93,25 @@
 
                                         <p>
                                             <?php echo $this->session->userdata('full_name'); ?>                                         
-                                            <small>USER AKTIF</small>
+                                            <small>
+                                                <?php 
+                                                    if ($this->session->userdata('id_user_level')==1){
+                                                        echo ('Super Admin');
+                                                    } elseif ($this->session->userdata('id_user_level')==2){
+                                                        echo ('Administrator');
+                                                    } elseif ($this->session->userdata('id_user_level')==4){
+                                                        echo ('Pemohon');
+                                                    }
+                                                    ?></small>
                                         </p>
                                     </li>
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
-                                        <div class="pull-left">
-                                            <?php echo anchor('user/profile', 'Profile', array('class' => 'btn btn-default btn-flat')); ?>
-                                            <!--<a href="#" class="btn btn-default btn-flat">Profile</a>-->
-                                        </div>
+                                    <div class="pull-left">
+                                        <?php echo anchor('user/update/' . $this->session->userdata('id_users'), 'Profil', array('class' => 'btn btn-default btn-flat')); ?>
+                                        <!--<a href="#" class="btn btn-default btn-flat">Profile</a>-->
+                                    </div>
+
                                         <div class="pull-right">
                                             <?php echo anchor('auth/logout', 'Logout', array('class' => 'btn btn-default btn-flat')); ?>
                                             <!--<a href="#" class="btn btn-default btn-flat">Sign out</a>-->

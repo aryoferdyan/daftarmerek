@@ -34,15 +34,18 @@
             </div>
             <!-- /.login-logo -->
             <div class="login-box-body">
-                <?php
+               <?php
                 $status_login = $this->session->userdata('status_login');
                 if (empty($status_login)) {
                     $message = "Silahkan isi form dengan lengkap";
+                    $style = ""; // Tidak ada gaya tambahan
                 } else {
                     $message = $status_login;
+                    $style = "font-weight: bold; color: red;"; // Tambahkan gaya bold dan warna merah
                 }
                 ?>
-                <p class="login-box-msg"><?php echo $message; ?></p>
+                <p class="login-box-msg" style="<?php echo $style; ?>"><?php echo $message; ?></p>
+
 
                 <!--<form action="<?php echo base_url(); ?>/adminlte/index2.html" method="post">-->
                 <?php echo form_open('regis/tambahuser'); ?>

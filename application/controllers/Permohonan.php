@@ -16,6 +16,7 @@ class Permohonan extends CI_Controller
 
     public function index()
     {
+        $data['user_id'] = $this->session->userdata('id_users');
         $this->template->load('template','permohonan/tbl_permohonan_list');
     } 
     
@@ -134,18 +135,29 @@ public function create()
             $logo1 = (!empty($_FILES['logo']['name'])) ? $this->upload_logo() : array('file_name' => $this->input->post('logo'));
             $surat1 = (!empty($_FILES['surat']['name'])) ? $this->upload_surat() : array('file_name' => $this->input->post('surat'));
             $ttd1 = (!empty($_FILES['ttd']['name'])) ? $this->upload_ttd() : array('file_name' => $this->input->post('ttd'));
-    
+            
+            // Mengambil semua data yang akan diupdate
             $data = array(
                 'tanggal' => $this->input->post('tanggal', TRUE),
                 'nama_usaha' => $this->input->post('nama_usaha', TRUE),
                 'alamat' => $this->input->post('alamat', TRUE),
                 'nama_owner' => $this->input->post('nama_owner', TRUE),
-                'logo' => $logo1['file_name'],
-                'surat' => $surat1['file_name'],
-                'ttd' => $ttd1['file_name'],
                 'id_user' => $this->input->post('id_user', TRUE),
                 'status' => $this->input->post('status', TRUE),
             );
+    
+            // Menambahkan file yang tidak NULL ke dalam data
+            if (!empty($logo1['file_name'])) {
+                $data['logo'] = $logo1['file_name'];
+            }
+            if (!empty($surat1['file_name'])) {
+                $data['surat'] = $surat1['file_name'];
+            }
+            // Menambahkan file yang tidak NULL dan sudah diunggah ke dalam data
+            if (!empty($ttd1['file_name'])) {
+                $data['ttd'] = $ttd1['file_name'];
+            }
+
     
             $this->Permohonan_model->update($this->input->post('id_permohonan', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
@@ -165,49 +177,50 @@ public function create()
             redirect(site_url('permohonan'));
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('permohonan'));
+            redirect(site_url('permohonan') );
         }
     }
 
-    // Metode upload_logo
-function upload_logo() {
-    $config['upload_path']   = './uploads/logo';
-    $config['allowed_types'] = 'jpg|png|jpeg|pdf';
-    $this->load->library('upload', $config);
+        // Metode upload_logo
+    function upload_logo() {
+        $config['upload_path']   = './uploads/';
+        $config['allowed_types'] = 'jpg|png|jpeg|pdf';
+        $this->load->library('upload', $config);
 
-    if (!empty($_FILES['logo']['name']) && $this->upload->do_upload('logo')) {
-        return $this->upload->data();
-    } else {
-        // Jika file tidak diunggah, kembalikan nama file yang sudah ada di database
-        return array('file_name' => $this->input->post('logo'));
+        if (!empty($_FILES['logo']['name']) && $this->upload->do_upload('logo')) {
+            return $this->upload->data();
+        } else {
+            // Jika file tidak diunggah, kembalikan nama file yang sudah ada di database
+            return array('file_name' => $this->input->post('logo'));
+        }
     }
-}
 
-// Metode upload_surat
-function upload_surat() {
-    $config['upload_path']   = './uploads/document';
-    $config['allowed_types'] = 'jpg|pdf|png|jpeg';
-    $this->load->library('upload', $config);
+    // Metode upload_surat
+    function upload_surat() {
+        $config['upload_path']   = './uploads/';
+        $config['allowed_types'] = 'jpg|pdf|png|jpeg';
+        $this->load->library('upload', $config);
 
-    if (!empty($_FILES['surat']['name']) && $this->upload->do_upload('surat')) {
-        return $this->upload->data();
-    } else {
-        return array('file_name' => $this->input->post('surat'));
+        if (!empty($_FILES['surat']['name']) && $this->upload->do_upload('surat')) {
+            return $this->upload->data();
+        } else {
+            return array('file_name' => $this->input->post('surat'));
+        }
     }
-}
 
-// Metode upload_ttd
-function upload_ttd() {
-    $config['upload_path']   = './uploads/ttd';
-    $config['allowed_types'] = 'jpg|png|jpeg';
-    $this->load->library('upload', $config);
+    // Metode upload_ttd
+    function upload_ttd() {
+        $config['upload_path']   = './uploads/';
+        $config['allowed_types'] = 'jpg|png|jpeg';
+        $this->load->library('upload', $config);
 
-    if (!empty($_FILES['ttd']['name']) && $this->upload->do_upload('ttd')) {
-        return $this->upload->data();
-    } else {
-        return array('file_name' => $this->input->post('ttd'));
+
+        if (!empty($_FILES['ttd']['name']) && $this->upload->do_upload('ttd')) {
+            return $this->upload->data();
+        } else {
+            return array('file_name' => $this->input->post('ttd'));
+        }
     }
-}
 
 
 

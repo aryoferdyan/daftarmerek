@@ -18,10 +18,8 @@ class Permohonan_model extends CI_Model
     // datatables
     function json() {
         $this->datatables->select('id_permohonan,tanggal,nama_usaha,alamat,nama_owner,logo,surat,ttd,id_user,status');
-        $this->datatables->from('tbl_permohonan');
-        if ($_SESSION['id_users'] == 3){
-            $this->datatables->where('id_user', $_SESSION['id_users']);
-        } else{}
+        $this->datatables->from('tbl_permohonan');            
+        $this->datatables->where('id_user', $_SESSION['id_users']);
         //add this line for join
         //$this->datatables->join('table2', 'tbl_permohonan.field = table2.field');
         $this->datatables->add_column('action', anchor(site_url('permohonan/read/$1'),'<i class="fa fa-eye" aria-hidden="true"></i>', array('class' => 'btn btn-danger btn-sm'))." 

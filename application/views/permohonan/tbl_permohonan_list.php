@@ -79,7 +79,7 @@
                         },{"data": "tanggal"},{"data": "nama_usaha"},{"data": "alamat"},{"data": "nama_owner"},
                         { "data": "logo",
                             "render": function (data, type, row, meta) {
-                                return '<a class="logo-popup" href="<?php echo base_url("uploads/logo/"); ?>' + data + '"><img src="<?php echo base_url("uploads/logo/"); ?>' + data + '" class="img-thumbnail" alt="Logo" width="50" height="50"></a>';
+                                return '<a class="logo-popup" href="<?php echo base_url("uploads/"); ?>' + data + '"><img src="<?php echo base_url("uploads/"); ?>' + data + '" class="img-thumbnail" alt="Logo" width="50" height="50"></a>';
                             }
                         },
 
@@ -87,7 +87,7 @@
                         {
                             "data": "surat",
                             "render": function(data, type, row) {
-                                return '<a href="<?php echo base_url("uploads/logo/"); ?>' + data + '" target="_blank" class="btn btn-warning">Lihat Surat</a>';
+                                return '<a href="<?php echo base_url("uploads/"); ?>' + data + '" target="_blank" class="btn btn-warning">Lihat Surat</a>';
                             }
                         },
                         
@@ -95,7 +95,7 @@
                         {
                             "data": "ttd",
                             "render": function (data, type, row, meta) {
-                                return '<a class="logo-popup" href="<?php echo base_url("uploads/logo/"); ?>' + data + '"><img src="<?php echo base_url("uploads/logo/"); ?>' + data + '" class="img-thumbnail" alt="Logo" width="50" height="50"></a>';
+                                return '<a class="logo-popup" href="<?php echo base_url("uploads/"); ?>' + data + '"><img src="<?php echo base_url("uploads/"); ?>' + data + '" class="img-thumbnail" alt="Logo" width="50" height="50"></a>';
                             }
                         },
 
