@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Permohonan_model extends CI_Model
+class Permohonan_admin_model extends CI_Model
 {
 
     public $table = 'tbl_permohonan';
@@ -19,16 +19,15 @@ class Permohonan_model extends CI_Model
     function json() {
         $this->datatables->select('id_permohonan,tanggal,nama_usaha,alamat,nama_owner,logo,surat,ttd,id_user,status');
         $this->datatables->from('tbl_permohonan');            
-        $this->datatables->where('id_user', $_SESSION['id_users']);
-        //add this line for join
+        //$this->datatables->where('id_user', $_SESSION['id_users']);
+        //add this line for join 
         //$this->datatables->join('table2', 'tbl_permohonan.field = table2.field');
-        
-        $this->datatables->add_column('action', anchor(site_url('permohonan/read/$1'),'<i class="fa fa-eye" aria-hidden="true"></i>', array('class' => 'btn btn-danger btn-sm'))." 
-            ".anchor(site_url('permohonan/update/$1'),'<i class="fa fa-pencil-square-o" aria-hidden="true"></i>', array('class' => 'btn btn-danger btn-sm'))." 
-                ".anchor(site_url('permohonan/delete/$1'),'<i class="fa fa-trash-o" aria-hidden="true"></i>','class="btn btn-danger btn-sm" onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'id_permohonan');
+        $this->datatables->add_column('action', anchor(site_url('admin/read/$1'),'<i class="fa fa-eye" aria-hidden="true"></i>', array('class' => 'btn btn-danger btn-sm'))." 
+            ".anchor(site_url('admin/update/$1'),'<i class="fa fa-pencil-square-o" aria-hidden="true"></i>', array('class' => 'btn btn-danger btn-sm'))." 
+                ".anchor(site_url('admin/delete/$1'),'<i class="fa fa-trash-o" aria-hidden="true"></i>','class="btn btn-danger btn-sm" onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'id_permohonan');
         return $this->datatables->generate();
     }
- 
+
     // get all
     function get_all()
     {
@@ -56,6 +55,7 @@ class Permohonan_model extends CI_Model
 	$this->db->or_like('ttd', $q);
 	$this->db->or_like('id_user', $q);
 	$this->db->or_like('status', $q);
+	$this->db->or_like('notes', $q);
 	$this->db->from($this->table);
         return $this->db->count_all_results();
     }
@@ -73,6 +73,7 @@ class Permohonan_model extends CI_Model
 	$this->db->or_like('ttd', $q);
 	$this->db->or_like('id_user', $q);
 	$this->db->or_like('status', $q);
+	$this->db->or_like('notes', $q);
 	$this->db->limit($limit, $start);
         return $this->db->get($this->table)->result();
     }

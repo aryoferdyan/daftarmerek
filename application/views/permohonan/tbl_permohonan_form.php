@@ -31,12 +31,13 @@
 					<tr>
 					    <td width='200'>Logo <?php echo form_error('logo')?></td>
 					    <td>
-					        <input type="file" class="form-control" name="logo" id="logo" value="<?php echo $logo;?>" />
+					        <input type="file" class="form-control" name="logo" id="logo" accept="image/jpeg,image/png,image/gif" value="<?php echo $logo;?>" />
 					        <?php if ($logo):?>
 					            <img src="<?php echo base_url('uploads/'. $logo);?>" alt="Logo" style="max-width: 200px; max-height: 200px;">
 					        <?php endif;?>
 					    </td>
 					</tr>
+					
 					
 
 					<tr>
@@ -44,9 +45,19 @@
 					    <td>
 					        <input type="file" class="form-control" name="surat" id="surat" value="<?php echo $surat;?>" />
 					        <?php if ($surat):?>
-					            <br>
-					            <iframe src="<?php echo base_url('uploads/'. $surat);?>" width="100%" height="600px"></iframe>
+								<?php 
+                                $file_path = './uploads/'. $surat;
+                                if (file_exists($file_path)) {
+									echo "<br>";
+                                    echo '<embed src="'. base_url($file_path). '" type="application/pdf" width="100%" height="600px" />';
+                                } else {
+                                    echo '';
+                                }
+                           		?>
+					        <?php else:?>
+					            
 					        <?php endif;?>
+					        
 					    </td>
 					</tr>
 					
@@ -66,20 +77,11 @@
 					    <td style="display:none;"><input type="text" class="form-control" name="id_user" id="id_user" placeholder="Id User" value="<?php echo $this->session->userdata('id_users');?>" /></td>
 					</tr>
 					
-					<script>
-					function validateForm() {
-					  var status = document.getElementById("status").value;
-					  if (status == 1 || status == 3) {
-					    alert("Data tidak bisa diupdate karena sudah disetujui/ditolak");
-					    return false;
-					  }
-					  return true;
-					}
-					</script>
+
 					
-					<tr>
-					  <td style="display:none;"><input type="text" class="form-control" name="status" id="status" placeholder="Status" value="<?php echo $status;?>" /></td>
-					</tr>
+					<input type="hidden" class="form-control" name="status" id="status" placeholder="Nama Usaha" value="<?php echo $status; ?>" /></td>
+				
+				
 					
 					<tr>
 					  <td></td>
@@ -89,6 +91,17 @@
 					    <a href="<?php echo site_url('permohonan')?>" class="btn btn-info"><i class="fa fa-sign-out"></i> Kembali</a>
 					  </td>
 					</tr>
+
+					<script>
+						function validateForm() {
+							var status = document.getElementById("status").value;
+							if (status == 1 || status == 3) {
+								alert("Data tidak bisa diupdate karena sudah disetujui/ditolak");
+								return false;
+							}
+							return true;
+						}
+					</script>
 					
 	
 				</table>

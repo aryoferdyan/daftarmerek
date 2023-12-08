@@ -3,13 +3,13 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Permohonan extends CI_Controller
+class Admin extends CI_Controller
 {
     function __construct()
     {
         parent::__construct();
         is_login();
-        $this->load->model('Permohonan_model');
+        $this->load->model('Permohonan_admin_model');
         $this->load->library('form_validation');        
 	    $this->load->library('datatables');
     }
@@ -17,17 +17,17 @@ class Permohonan extends CI_Controller
     public function index()
     {
         $data['user_id'] = $this->session->userdata('id_users');
-        $this->template->load('template','permohonan/tbl_permohonan_list');
+        $this->template->load('template','permohonan_admin/tbl_permohonan_list');
     } 
     
     public function json() {
         header('Content-Type: application/json');
-        echo $this->Permohonan_model->json();
+        echo $this->Permohonan_admin_model->json();
     }
  
     public function read($id) 
     {
-        $row = $this->Permohonan_model->get_by_id($id);
+        $row = $this->Permohonan_admin_model->get_by_id($id);
         if ($row) {
             $data = array(
 		'id_permohonan' => $row->id_permohonan,
@@ -42,71 +42,71 @@ class Permohonan extends CI_Controller
 		'status' => $row->status,
 		'notes' => $row->notes,
     );
-    $this->template->load('template','permohonan/tbl_permohonan_read', $data);
+    $this->template->load('template','permohonan_admin/tbl_permohonan_read', $data);
 } else {
     $this->session->set_flashdata('message', 'Record Not Found');
-    redirect(site_url('permohonan'));
+    redirect(site_url('admin'));
 }
 }
 
 
 
-public function create() 
-{
-        $data = array(
-            'button' => 'Create',
-            'action' => site_url('permohonan/create_action'),
-	    'id_permohonan' => set_value('id_permohonan'),
-	    'tanggal' => set_value('tanggal'),
-	    'nama_usaha' => set_value('nama_usaha'),
-	    'alamat' => set_value('alamat'),
-	    'nama_owner' => set_value('nama_owner'),
-	    'logo' => set_value('logo'),
-	    'surat' => set_value('surat'),
-	    'ttd' => set_value('ttd'),
-	    'id_user' => set_value('id_user'),
-	    'status' => set_value('status'),
-	);
-        $this->template->load('template','permohonan/tbl_permohonan_form', $data);
-    }
+// public function create() 
+// {
+//         $data = array(
+//             'button' => 'Create',
+//             'action' => site_url('permohonan/create_action'),
+// 	    'id_permohonan' => set_value('id_permohonan'),
+// 	    'tanggal' => set_value('tanggal'),
+// 	    'nama_usaha' => set_value('nama_usaha'),
+// 	    'alamat' => set_value('alamat'),
+// 	    'nama_owner' => set_value('nama_owner'),
+// 	    'logo' => set_value('logo'),
+// 	    'surat' => set_value('surat'),
+// 	    'ttd' => set_value('ttd'),
+// 	    'id_user' => set_value('id_user'),
+// 	    'status' => set_value('status'),
+// 	);
+//         $this->template->load('template','permohonan_admin/tbl_permohonan_form', $data);
+//     }
     
-    public function create_action() 
-    {
-        $this->_rules();
-        $logo1 = $this->upload_logo();
-        $surat1 = $this->upload_surat();
-        $ttd1 = $this->upload_ttd();
+//     public function create_action() 
+//     {
+//         $this->_rules();
+//         $logo1 = $this->upload_logo();
+//         $surat1 = $this->upload_surat();
+//         $ttd1 = $this->upload_ttd();
     
-        if ($this->form_validation->run() == FALSE) {
-            $this->create();
-        } else {
-            $data = array(
-                'tanggal' => $this->input->post('tanggal', TRUE),
-                'nama_usaha' => $this->input->post('nama_usaha', TRUE),
-                'alamat' => $this->input->post('alamat', TRUE),
-                'nama_owner' => $this->input->post('nama_owner', TRUE),
-                'logo' => $logo1['file_name'],  // menyimpan nama file logo ke dalam database
-                'surat' => $surat1['file_name'],  // menyimpan nama file surat ke dalam database
-                'ttd' => $ttd1['file_name'],  // menyimpan nama file ttd ke dalam database
-                'id_user' => $this->input->post('id_user', TRUE),
-                'status' => 0,
-            );
+//         if ($this->form_validation->run() == FALSE) {
+//             $this->create();
+//         } else {
+//             $data = array(
+//                 'tanggal' => $this->input->post('tanggal', TRUE),
+//                 'nama_usaha' => $this->input->post('nama_usaha', TRUE),
+//                 'alamat' => $this->input->post('alamat', TRUE),
+//                 'nama_owner' => $this->input->post('nama_owner', TRUE),
+//                 'logo' => $logo1['file_name'],  // menyimpan nama file logo ke dalam database
+//                 'surat' => $surat1['file_name'],  // menyimpan nama file surat ke dalam database
+//                 'ttd' => $ttd1['file_name'],  // menyimpan nama file ttd ke dalam database
+//                 'id_user' => $this->input->post('id_user', TRUE),
+//                 'status' => $this->input->post('status', TRUE),
+//             );
     
-            $this->Permohonan_model->insert($data);
-            $this->session->set_flashdata('message', 'Create Record Success 2');
-            redirect(site_url('permohonan'));
-        }
-    }
+//             $this->Permohonan_admin_model->insert($data);
+//             $this->session->set_flashdata('message', 'Create Record Success 2');
+//             redirect(site_url('permohonan'));
+//         }
+//     }
     
     
     public function update($id) 
     {
-        $row = $this->Permohonan_model->get_by_id($id);
+        $row = $this->Permohonan_admin_model->get_by_id($id);
 
         if ($row) {
             $data = array(
                 'button' => 'Update',
-                'action' => site_url('permohonan/update_action'),
+                'action' => site_url('admin/update_action'),
                 'id_permohonan' => set_value('id_permohonan', $row->id_permohonan),
                 'tanggal' => set_value('tanggal', $row->tanggal),
                 'nama_usaha' => set_value('nama_usaha', $row->nama_usaha),
@@ -116,9 +116,10 @@ public function create()
                 'surat' => set_value('surat', $row->surat),
                 'ttd' => set_value('ttd', $row->ttd),
                 'id_user' => set_value('id_user', $row->id_user),
-            	'status' => set_value('status', $row->status),
-            );
-            $this->template->load('template','permohonan/tbl_permohonan_form', $data);
+                'status' => set_value('status', $row->status),
+                'notes' => set_value('notes', $row->notes),
+	    );
+            $this->template->load('template','permohonan_admin/tbl_permohonan_form', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             // redirect(site_url('permohonan'));
@@ -139,31 +140,21 @@ public function create()
             
             // Mengambil semua data yang akan diupdate
             $data = array(
-                'tanggal' => $this->input->post('tanggal', TRUE),
-                'nama_usaha' => $this->input->post('nama_usaha', TRUE),
-                'alamat' => $this->input->post('alamat', TRUE),
-                'nama_owner' => $this->input->post('nama_owner', TRUE),
-                'id_user' => $this->input->post('id_user', TRUE),
-                'status' => 0,
+                // 'tanggal' => $this->input->post('tanggal', TRUE),
+                // 'nama_usaha' => $this->input->post('nama_usaha', TRUE),
+                // 'alamat' => $this->input->post('alamat', TRUE),
+                // 'nama_owner' => $this->input->post('nama_owner', TRUE),
+                // 'id_user' => $this->input->post('id_user', TRUE),
+                'status' => $this->input->post('status', TRUE),
+                'notes' => $this->input->post('notes', TRUE),
                 
             );
                 
-            // Menambahkan file yang tidak NULL ke dalam data
-            if (!empty($logo1['file_name'])) {
-                $data['logo'] = $logo1['file_name'];
-            }
-            if (!empty($surat1['file_name'])) {
-                $data['surat'] = $surat1['file_name'];
-            }
-            // Menambahkan file yang tidak NULL dan sudah diunggah ke dalam data
-            if (!empty($ttd1['file_name'])) {
-                $data['ttd'] = $ttd1['file_name'];
-            }
 
     
-            $this->Permohonan_model->update($this->input->post('id_permohonan', TRUE), $data);
+            $this->Permohonan_admin_model->update($this->input->post('id_permohonan', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('permohonan'));
+            redirect(site_url('admin'));
         }
     }
     
@@ -171,79 +162,36 @@ public function create()
     
     // public function delete($id) 
     // {
-    //     $row = $this->Permohonan_model->get_by_id($id);
+    //     $row = $this->Permohonan_admin_model->get_by_id($id);
 
     //     if ($row) {
-    //         $this->Permohonan_model->delete($id);
+    //         $this->Permohonan_admin_model->delete($id);
     //         $this->session->set_flashdata('message', 'Delete Record Success');
-    //         redirect(site_url('permohonan'));
+    //         redirect(site_url('admin'));
     //     } else {
     //         $this->session->set_flashdata('message', 'Record Not Found');
-    //         redirect(site_url('permohonan') );
+    //         redirect(site_url('admin') );
     //     }
     // }
 
     public function delete($id) 
     {
-        $row = $this->Permohonan_model->get_by_id($id);
+        $row = $this->Permohonan_admin_model->get_by_id($id);
 
         if ($row) {
             if ($row->status == 1) {
                 $this->session->set_flashdata('message', 'Permohonan disetujui tidak dapat dihapus');
-                redirect(site_url('permohonan'));
+                redirect(site_url('admin'));
             } else {
-                $this->Permohonan_model->delete($id);
+                $this->Permohonan_admin_model->delete($id);
                 $this->session->set_flashdata('message', 'Delete Record Success');
-                redirect(site_url('permohonan'));
+                redirect(site_url('admin'));
             }
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('permohonan'));
+            redirect(site_url('admin'));
         }
     }
-
-
-        // Metode upload_logo
-    function upload_logo() {
-        $config['upload_path']   = './uploads/';
-        $config['allowed_types'] = 'jpg|png|jpeg|pdf';
-        $this->load->library('upload', $config);
-
-        if (!empty($_FILES['logo']['name']) && $this->upload->do_upload('logo')) {
-            return $this->upload->data();
-        } else {
-            // Jika file tidak diunggah, kembalikan nama file yang sudah ada di database
-            return array('file_name' => $this->input->post('logo'));
-        }
-    }
-
-    // Metode upload_surat
-    function upload_surat() {
-        $config['upload_path']   = './uploads/';
-        $config['allowed_types'] = 'jpg|pdf|png|jpeg';
-        $this->load->library('upload', $config);
-
-        if (!empty($_FILES['surat']['name']) && $this->upload->do_upload('surat')) {
-            return $this->upload->data();
-        } else {
-            return array('file_name' => $this->input->post('surat'));
-        }
-    }
-
-    // Metode upload_ttd
-    function upload_ttd() {
-        $config['upload_path']   = './uploads/';
-        $config['allowed_types'] = 'jpg|png|jpeg';
-        $this->load->library('upload', $config);
-
-
-        if (!empty($_FILES['ttd']['name']) && $this->upload->do_upload('ttd')) {
-            return $this->upload->data();
-        } else {
-            return array('file_name' => $this->input->post('ttd'));
-        }
-    }
-
 
 
     // function upload_logo(){
@@ -273,21 +221,32 @@ public function create()
 
     public function _rules() 
     {
-	$this->form_validation->set_rules('tanggal', 'tanggal', 'trim|required');
-	$this->form_validation->set_rules('nama_usaha', 'nama usaha', 'trim|required');
-	$this->form_validation->set_rules('alamat', 'alamat', 'trim|required');
-	$this->form_validation->set_rules('nama_owner', 'nama owner', 'trim|required');
+	// $this->form_validation->set_rules('tanggal', 'tanggal', 'trim|required');
+	// $this->form_validation->set_rules('nama_usaha', 'nama usaha', 'trim|required');
+	// $this->form_validation->set_rules('alamat', 'alamat', 'trim|required');
+	// $this->form_validation->set_rules('nama_owner', 'nama owner', 'trim|required');
+    // $this->form_validation->set_rules('logo', 'Logo', 'callback_check_logo_extension');
 
 	//$this->form_validation->set_rules('logo', 'logo', 'required');
 	// $this->form_validation->set_rules('surat', 'surat', 'trim|required');
 	//$this->form_validation->set_rules('ttd', 'ttd', 'required');
 	// $this->form_validation->set_rules('id_user', 'id user', 'trim|required');
-	// $this->form_validation->set_rules('status', 'status', 'trim|required');
+	$this->form_validation->set_rules('status', 'status', 'trim|required');
 
 	$this->form_validation->set_rules('id_permohonan', 'id_permohonan', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }
 
+    
+    public function check_logo_extension($str) {
+        $allowed_extensions = array('jpg', 'jpeg', 'png', 'gif');
+        $ext = strtolower(pathinfo($str, PATHINFO_EXTENSION));
+        if (!in_array($ext, $allowed_extensions)) {
+            $this->form_validation->set_message('check_logo_extension', 'Unsupported file format. Allowed formats are jpg, jpeg, png, and gif.');
+            return false;
+        }
+        return true;
+    }
     
 
     public function excel()
@@ -322,7 +281,7 @@ public function create()
 	xlsWriteLabel($tablehead, $kolomhead++, "Id User");
 	xlsWriteLabel($tablehead, $kolomhead++, "Status");
 
-	foreach ($this->Permohonan_model->get_all() as $data) {
+	foreach ($this->Permohonan_admin_model->get_all() as $data) {
             $kolombody = 0;
 
             //ubah xlsWriteLabel menjadi xlsWriteNumber untuk kolom numeric
@@ -351,7 +310,7 @@ public function create()
         header("Content-Disposition: attachment;Filename=tbl_permohonan.doc");
 
         $data = array(
-            'tbl_permohonan_data' => $this->Permohonan_model->get_all(),
+            'tbl_permohonan_data' => $this->Permohonan_admin_model->get_all(),
             'start' => 0
         );
         

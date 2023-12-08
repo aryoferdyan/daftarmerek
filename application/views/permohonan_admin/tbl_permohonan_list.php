@@ -7,16 +7,10 @@
                     <div class="box-header">
                         <h3 class="box-title">PERMOHONAN PENDAFTARAN MEREK</h3>
                     </div>
-        <?php
-$message = $this->session->flashdata('message');
-if (!empty($message)) {
-    echo '<div class="alert alert-success">' . $message . '</div>';
-}
-?>
-
+        
         <div class="box-body">
         <div style="padding-bottom: 10px;"'>
-        <?php echo anchor(site_url('permohonan/create'), '<i class="fa fa-wpforms" aria-hidden="true"></i> Ajukan Permohonan', 'class="btn btn-primary btn-sm"'); ?>
+        <!-- <?php echo anchor(site_url('admin/create'), '<i class="fa fa-wpforms" aria-hidden="true"></i> Ajukan Permohonan', 'class="btn btn-primary btn-sm"'); ?> -->
         </div>
         <table class="table table-bordered table-striped" id="mytable">
             <thead>
@@ -31,6 +25,7 @@ if (!empty($message)) {
 		    <th>Ttd</th>
 		    <!-- <th>Id User</th> -->
 		    <th>Status</th>
+		    <!-- <th>Notes</th> -->
 		    <th width="200px">Action</th>
                 </tr>
             </thead>
@@ -76,7 +71,7 @@ if (!empty($message)) {
                     },
                     processing: true,
                     serverSide: true,
-                    ajax: {"url": "permohonan/json", "type": "POST"},
+                    ajax: {"url": "admin/json", "type": "POST"},
                     columns: [
                         {
                             "data": "id_permohonan",
@@ -117,7 +112,7 @@ if (!empty($message)) {
                                 } else if (data == 3){
                                     return '<button class="btn btn-danger">DITOLAK</button>';
                                 }
-                            } 
+                            }
                         
                         },
                         {
@@ -137,28 +132,7 @@ if (!empty($message)) {
                 });
             });
         </script>
-        <script>
-            // $(document).ready(function() {
-            //     // Inisialisasi Fancybox untuk tindakan klik pada gambar
-            //     $('.logo-popup').fancybox({
-            //         // Opsi Fancybox
-            //         // Anda dapat menyesuaikan opsi sesuai kebutuhan
-            //         afterShow: function(instance, current) {
-            //             // Tambahkan tombol "X" untuk menutup popup
-            //             $('.fancybox-button--close').html('<button type="button" class="btn btn-default fancybox-close-small">X</button>');
-            //         }
-            //     });
-            // });
 
-          
-    //         $(document).on('click', '.btn-view-ttd', function() {
-    //     var permohonanId = $(this).data('id');
-    //     var ttdUrl = baseUrl + permohonanId;
-
-    //     window.open(ttdUrl, '_blank');
-    // });
-
-        </script>
 
 
 

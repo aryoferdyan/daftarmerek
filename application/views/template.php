@@ -35,6 +35,19 @@
                 right: 10px;
                 cursor: pointer;
             }
+
+            .popup {
+                display: none;
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                padding: 20px;
+                background-color: #ff0000; /* Warna merah */
+                color: #fff; /* Warna teks putih */
+                border: 1px solid #ccc;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                z-index: 1000; /* Atur nilai z-index tinggi */
+            }
         </style>
 
         <!-- Sertakan jQuery -->
@@ -133,6 +146,24 @@
                 <?php $this->load->view('template/sidebar'); ?>
             </aside>
 
+            <div id="flashMessage" class="popup"></div>
+
+                <script>
+                    // Ambil pesan flash dari PHP dan tampilkan sebagai popup
+                    var flashMessage = "<?php echo $this->session->flashdata('message'); ?>";
+
+                    if (flashMessage !== "") {
+                        // Tampilkan popup dengan pesan flash
+                        var popup = document.getElementById('flashMessage');
+                        popup.innerHTML = flashMessage;
+                        popup.style.display = 'block';
+
+                        // Sembunyikan popup setelah beberapa detik (misalnya, 3 detik)
+                        setTimeout(function() {
+                            popup.style.display = 'none';
+                        }, 3000);
+                    }
+                </script>
             <?php
             echo $contents;
             ?>

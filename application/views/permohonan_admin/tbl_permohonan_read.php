@@ -102,7 +102,7 @@
                 <tr>
                     <td></td>
                     <td></td>
-                    <td><a href="<?php echo site_url('permohonan') ?>" class="btn btn-danger btn-sm">Kembali</a></td>
+                    <td><a href="<?php echo site_url('admin') ?>" class="btn btn-danger btn-sm">Kembali</a></td>
                 </tr>
 
 				</table>
