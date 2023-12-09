@@ -14,6 +14,10 @@
         <div class="box">
             <p>Anda Tidak Boleh Mengakses Halaman Ini</p>
             <p>Silahkan Hubungi Administrator</p>
+            <!-- <p><?php echo session_status(); ?></p> -->
+            <!-- <p><?= session_id() ?></p> -->
+            <a href="<?= base_url();?>index.php/home">Sudah login? Klik disini</a>
         </div>
     </body>
+    
 </html>

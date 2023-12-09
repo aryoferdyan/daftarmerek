@@ -23,6 +23,11 @@ Class Auth extends CI_Controller{
             if(password_verify($password,$user['password'])){
                 // retrive user data to session
                 if($user['is_aktif'] == 'y'){
+                    $data = array(
+                        'id_user' => $user['id_users'],
+                        'tanggal' => date('Y-m-d H:i:s')
+                    );
+                    $this->db->insert('tbl_log', $data); // Menambahkan insert ke tabel tbl_log
                     $this->session->set_userdata($user);
                     redirect('home'); 
                 } else {
@@ -30,13 +35,14 @@ Class Auth extends CI_Controller{
                     redirect('auth');
                 }
             }else{
+                $this->session->set_flashdata('status_login','Email atau password yang anda input salah');
                 redirect('auth');
             }
         }else{
             $this->session->set_flashdata('status_login','Email atau password yang anda input salah');
             redirect('auth');
         }
-    }
+    }  
     
     function logout(){
         $this->session->sess_destroy();

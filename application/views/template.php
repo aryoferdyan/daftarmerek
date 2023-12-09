@@ -42,11 +42,11 @@
                 bottom: 20px;
                 right: 20px;
                 padding: 20px;
-                background-color: #ff0000; /* Warna merah */
-                color: #fff; /* Warna teks putih */
+                background-color: #008000;
+                color: #fff; 
                 border: 1px solid #ccc;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                z-index: 1000; /* Atur nilai z-index tinggi */
+                z-index: 1000;
             }
         </style>
 
@@ -73,7 +73,7 @@
 
             <header class="main-header">
                 <!-- Logo -->
-                <a href="<?php echo base_url() ?>adminlte/index2.html" class="logo">
+                <a href="<?php echo base_url() ?>index.php/home" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
                     <span class="logo-mini"><b>PT</b>IK</span>
                     <!-- logo for regular state and mobile devices -->
