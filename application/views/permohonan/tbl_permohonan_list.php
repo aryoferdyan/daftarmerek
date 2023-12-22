@@ -7,41 +7,41 @@
                     <div class="box-header">
                         <h3 class="box-title">PERMOHONAN PENDAFTARAN MEREK</h3>
                     </div>
-        <?php
-$message = $this->session->flashdata('message');
-if (!empty($message)) {
-    echo '<div class="alert alert-success">' . $message . '</div>';
-}
-?>
+                            <?php
+                    $message = $this->session->flashdata('message');
+                    if (!empty($message)) {
+                        echo '<div class="alert alert-success">' . $message . '</div>';
+                    }
+                    ?>
 
-        <div class="box-body">
-        <div style="padding-bottom: 10px;"'>
-        <?php echo anchor(site_url('permohonan/create'), '<i class="fa fa-wpforms" aria-hidden="true"></i> Ajukan Permohonan', 'class="btn btn-primary btn-sm"'); ?>
-        </div>
-        <table class="table table-bordered table-striped" id="mytable">
-            <thead>
-                <tr>
-                    <th width="30px">No</th>
-		    <th>Tanggal</th>
-		    <th>Nama Usaha</th>
-		    <th>Alamat</th>
-		    <th>Nama Owner</th>
-		    <th>Logo</th>
-		    <th>Surat</th>
-		    <th>Ttd</th>
-		    <!-- <th>Id User</th> -->
-		    <th>Status</th>
-		    <th width="200px">Action</th>
-                </tr>
-            </thead>
-	    
-        </table>
-        </div>
+                            <div class="box-body">
+                            <div style="padding-bottom: 10px;"'>
+                            <?php echo anchor(site_url('permohonan/create'), '<i class="fa fa-wpforms" aria-hidden="true"></i> Ajukan Permohonan', 'class="btn btn-primary btn-sm"'); ?>
+                            </div>
+                            <table class="table table-bordered table-striped" id="mytable">
+                                <thead>
+                                    <tr>
+                                        <th width="30px">No</th>
+                                <th>Tanggal</th>
+                                <th>Nama Usaha</th>
+                                <th>Alamat</th>
+                                <th>Nama Owner</th>
+                                <th>Logo</th>
+                                <th>Surat</th>
+                                <th>Ttd</th>
+                                <!-- <th>Id User</th> -->
+                                <th>Status</th>
+                                <th width="200px">Action</th>
+                                    </tr>
+                                </thead>
+                            
+                            </table>
+                            </div>
+                                        </div>
+                                </div>
+                                </div>
+                        </section>
                     </div>
-            </div>
-            </div>
-    </section>
-</div>
         <script src="<?php echo base_url('assets/js/jquery-1.11.2.min.js') ?>"></script>
         <script src="<?php echo base_url('assets/datatables/jquery.dataTables.js') ?>"></script>
         <script src="<?php echo base_url('assets/datatables/dataTables.bootstrap.js') ?>"></script>

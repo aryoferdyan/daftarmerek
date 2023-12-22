@@ -1,25 +1,24 @@
 <div class="content-wrapper">
     <section class="content">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-warning box-solid">
-    
-                    <div class="box-header">
-                        <h3 class="box-title">KELOLA DATA TBL_PENGUMUMAN</h3>
-                    </div>
-        
+       
         <div class="box-body">
         <div style="padding-bottom: 10px;"'>
-        <?php echo anchor(site_url('pengumuman/create'), '<i class="fa fa-wpforms" aria-hidden="true"></i> Tambah Data', 'class="btn btn-danger btn-sm"'); ?>
-		<?php echo anchor(site_url('pengumuman/excel'), '<i class="fa fa-file-excel-o" aria-hidden="true"></i> Export Ms Excel', 'class="btn btn-success btn-sm"'); ?></div>
+        <?php
+        $id_level = $this->session->userdata('id_user_level');
+
+        if ($id_level == 1 || $id_level == 2){
+        echo anchor(site_url('pengumuman/create'), '<i class="fa fa-wpforms" aria-hidden="true"></i> Tambah Data', 'class="btn btn-danger btn-sm"');
+		echo anchor(site_url('pengumuman/excel'), '<i class="fa fa-file-excel-o" aria-hidden="true"></i> Export Ms Excel', 'class="btn btn-success btn-sm"'); 
+        }
+        ?></div>
         <table class="table table-bordered table-striped" id="mytable">
             <thead>
                 <tr>
                     <th width="30px">No</th>
-		    <th>Tgl Pengumuman</th>
+		    <th width="50px">Tanggal</th>
 		    <th>Isi Pengumuman</th>
-		    <th>Id User</th>
-		    <th width="200px">Action</th>
+		    <!-- <th>Id User</th> -->
+		    <!-- <th width="200px">Action</th> -->
                 </tr>
             </thead>
 	    
@@ -69,12 +68,13 @@
                         {
                             "data": "id_pengumuman",
                             "orderable": false
-                        },{"data": "tgl_pengumuman"},{"data": "isi_pengumuman"},{"data": "id_user"},
-                        {
-                            "data" : "action",
-                            "orderable": false,
-                            "className" : "text-center"
-                        }
+                        },{"data": "tgl_pengumuman"},{"data": "isi_pengumuman"},
+                        // {"data": "id_user"},
+                        // {
+                        //     "data" : "action",
+                        //     "orderable": false,
+                        //     "className" : "text-center"
+                        // }
                     ],
                     order: [[0, 'desc']],
                     rowCallback: function(row, data, iDisplayIndex) {

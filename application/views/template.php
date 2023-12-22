@@ -5,7 +5,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>GARUDA CRUD Generator</title>
         <!-- Tell the browser to be responsive to screen width -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        
         <!-- Bootstrap 3.3.7 -->
         <link rel="stylesheet" href="<?php echo base_url() ?>assets/jquery-ui/themes/base/minified/jquery-ui.min.css" type="text/css" />
         <link rel="stylesheet" href="<?php echo base_url() ?>assets/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -48,6 +51,24 @@
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
                 z-index: 1000;
             }
+        
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+
+            th {
+                background-color: #f2f2f2;
+            }
+
+    
         </style>
 
         <!-- Sertakan jQuery -->
@@ -82,12 +103,12 @@
                 <!-- Header Navbar: style can be found in header.less -->
                 <nav class="navbar navbar-static-top">
                     <!-- Sidebar toggle button-->
-                    <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <!-- <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
-                    </a>
+                    </a> -->
 
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">                          
@@ -121,14 +142,22 @@
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
                                     <div class="pull-left">
-                                        <?php echo anchor('user/update/' . $this->session->userdata('id_users'), 'Profil', array('class' => 'btn btn-default btn-flat')); ?>
+                                        <?php echo anchor('profil/update/' . $this->session->userdata('id_users'), 'Profil', array('class' => 'btn btn-default btn-flat')); ?>
                                         <!--<a href="#" class="btn btn-default btn-flat">Profile</a>-->
                                     </div>
 
                                         <div class="pull-right">
-                                            <?php echo anchor('auth/logout', 'Logout', array('class' => 'btn btn-default btn-flat')); ?>
-                                            <!--<a href="#" class="btn btn-default btn-flat">Sign out</a>-->
+                                            <?php
+                                            if ($this->session->userdata('id_user_level') == 3) {
+                                                echo anchor('auth/logout', 'Login/Buat Akun', array('class' => 'btn btn-default btn-flat'));
+                                                // You can add more content here for user level 1 if needed
+                                            } else {
+                                                echo anchor('auth/logout', 'Logout', array('class' => 'btn btn-default btn-flat'));
+                                                // You can add more content here for other user levels if needed
+                                            }
+                                            ?>
                                         </div>
+
                                     </li>
                                 </ul>
                             </li>
