@@ -12,7 +12,6 @@ Untuk melakukan proses login silahkan gunakan akun default berikut :
 <br>
 <br>Login Admin
 <br>Email : admin@gmail.com
-<br>
 <br>Password : 123
 <br>
 <br>Login Pemohon
