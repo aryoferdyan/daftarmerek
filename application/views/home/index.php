@@ -65,21 +65,23 @@
                     
                     <table>
                         <thead>
-                            <tr>
-                                <th width=8%>Tanggal</th>
-                                <th width=auto>Nama</th>
-                                <th width=auto>Nama Owner</th>
-                                <th width=8%>Status</th>
-                                <th width=5%>Kesamaan</th> <!-- Add a new column header for similarity -->
-                            </tr>
+                        <tr>
+                            <th width=2% style="text-align: center;">No.</th> <!-- Add a new column header for sequence number -->
+                            <th width=10% style="text-align: center;">Tanggal</th>
+                            <th width=auto style="text-align: center;">Nama</th>
+                            <th width=auto style="text-align: center;">Nama Owner</th>
+                            <th width=8% style="text-align: center;">Status</th>
+                            <th width=5% style="text-align: center;">Kesamaan</th> <!-- Add a new column header for similarity -->
+                        </tr>
                         </thead>
                         <tbody>
                             <?php
                             // Check if $keyword is empty
                             if (empty($keyword)) {
-                                echo '<tr><td colspan="5"><strong><tbody>Tidak Ada Data</strong></td></tr>';
+                                echo '<tr><td colspan="6"><strong>Tidak Ada Data</strong></td></tr>';
                             } else {
                                 // Iteration through data and display in the table
+                                $counter = 1; // Initialize a counter for sequence number
                                 foreach ($data as $item) {
                                     // Mengecek apakah _source ada dalam data
                                     if (!isset($item['_source'])) {
@@ -94,17 +96,23 @@
                                     $similarity = calculateSimilarity($userInput, $namaMerek);
 
                                     echo '<tr>';
-                                    echo '<td>' . $source['tanggal_permohonan'] . '</td>';
+                                    echo '<td style="text-align: center;">' . $counter . '</td>'; // Display the sequence number
+                                    echo '<td style="text-align: center;">' . $source['tanggal_permohonan'] . '</td>';
                                     echo '<td>' . $source['nama_merek'] . '</td>';
                                     echo '<td>' . $source['owner'][0]['tm_owner_name'] . '</td>';
-                                    echo '<td>' . $source['status_permohonan'] . '</td>';
+                                    echo '<td style="text-align: center;">' . $source['status_permohonan'] . '</td>';
                                     echo '<td style="text-align: center;">' . $similarity . " %" . '</td>'; // Display similarity in the new column
                                     echo '</tr>';
+
+                                    $counter++; // Increment the counter for the next row
                                 }
                             }
                             ?>
                         </tbody>
                     </table>
+                    <!-- <?= print_r($source, true); ?> -->
+
+
 
 
                     <!-- GRAFIKKKK BRO -->

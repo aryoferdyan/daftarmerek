@@ -117,14 +117,30 @@
                             <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <?php
+                                // Periksa apakah id_user_level tidak sama dengan 3
+                                if ($this->session->userdata('id_user_level') != 3) {
+                                    // Tampilkan gambar profil
+                                    ?>
                                     <img src="<?php echo base_url() ?>assets/foto_profil/<?php echo $this->session->userdata('images'); ?>" class="user-image" alt="User Image">
+                                    <?php
+                                }
+                                ?>
+
                                     <span class="hidden-xs"><?php echo $this->session->userdata('full_name'); ?> </span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
-                                        <img src="<?php echo base_url() ?>assets/foto_profil/<?php echo $this->session->userdata('images'); ?> " class="img-circle" alt="User Image">
-
+                                    <?php
+                                        // Mengecek apakah id_user_level tidak sama dengan 3
+                                        if ($this->session->userdata('id_user_level') != 3) {
+                                            // Menampilkan gambar profil
+                                            $imagePath = base_url() . 'assets/foto_profil/' . $this->session->userdata('images');
+                                            echo '<img src="' . $imagePath . '" class="img-circle" alt="User Image">';
+                                        }
+                                    ?>
+     
                                         <p>
                                             <?php echo $this->session->userdata('full_name'); ?>                                         
                                             <small>
@@ -142,7 +158,13 @@
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
                                     <div class="pull-left">
-                                        <?php echo anchor('profil/update/' . $this->session->userdata('id_users'), 'Profil', array('class' => 'btn btn-default btn-flat')); ?>
+                                       <?php
+                                        // Cek apakah id_user_level tidak sama dengan 3
+                                        if ($this->session->userdata('id_user_level') != 3) {
+                                            // Tampilkan tautan ke halaman profil
+                                            echo anchor('profil/update/' . $this->session->userdata('id_users'), 'Profil', array('class' => 'btn btn-default btn-flat'));
+                                        }
+                                        ?>
                                         <!--<a href="#" class="btn btn-default btn-flat">Profile</a>-->
                                     </div>
 
