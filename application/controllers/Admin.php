@@ -282,27 +282,39 @@ class Admin extends CI_Controller
 	xlsWriteLabel($tablehead, $kolomhead++, "Status");
 
 	foreach ($this->Permohonan_admin_model->get_all() as $data) {
-            $kolombody = 0;
-
-            //ubah xlsWriteLabel menjadi xlsWriteNumber untuk kolom numeric
-            xlsWriteNumber($tablebody, $kolombody++, $nourut);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->tanggal);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->nama_usaha);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->alamat);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->nama_owner);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->logo);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->surat);
-	    xlsWriteLabel($tablebody, $kolombody++, $data->ttd);
-	    xlsWriteNumber($tablebody, $kolombody++, $data->id_user);
-	    xlsWriteNumber($tablebody, $kolombody++, $data->status);
-
-	    $tablebody++;
-            $nourut++;
+        $kolombody = 0;
+    
+        //ubah xlsWriteLabel menjadi xlsWriteNumber untuk kolom numeric
+        xlsWriteNumber($tablebody, $kolombody++, $nourut);
+        xlsWriteLabel($tablebody, $kolombody++, $data->tanggal);
+        xlsWriteLabel($tablebody, $kolombody++, $data->nama_usaha);
+        xlsWriteLabel($tablebody, $kolombody++, $data->alamat);
+        xlsWriteLabel($tablebody, $kolombody++, $data->nama_owner);
+        xlsWriteLabel($tablebody, $kolombody++, $data->logo);
+        xlsWriteLabel($tablebody, $kolombody++, $data->surat);
+        xlsWriteLabel($tablebody, $kolombody++, $data->ttd);
+        xlsWriteNumber($tablebody, $kolombody++, $data->id_user);
+    
+        if ($data->status == 0) {
+            $status = "Diajukan";
+        } else if ($data->status == 1) {
+            $status = "Disetujui";
+        } else if ($data->status == 2) {
+            $status = "Perlu Perbaikan";
+        } else if ($data->status == 3) {
+            $status = "Ditolak";
         }
-
-        xlsEOF();
-        exit();
+    
+        xlsWriteLabel($tablebody, $kolombody++, $status);
+    
+        $tablebody++;
+        $nourut++;
     }
+    
+    xlsEOF();
+    exit();
+}
+    
 
     public function word()
     {

@@ -2,7 +2,7 @@
 
 // defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Home2 extends CI_Controller {
+class MerekTerdaftar extends CI_Controller {
 
 
     
@@ -18,7 +18,7 @@ class Home2 extends CI_Controller {
         //$this->load->view('table');
         // $this->template->load('');
         // $this->load->view('home/index2');
-        $this->template->load('template', 'home/index2.php');
+        $this->template->load('template', 'home/index1.php');
 
        // $data['jsonDataPermohonan'] = $this->Dashboard_model->getPermohonanData();
         //$data['jsonDataLog'] = $this->Dashboard_model->getLogData();
@@ -35,7 +35,7 @@ class Home2 extends CI_Controller {
         ])->get($url)->body();
 
         // Pass the data to the view
-        $this->template->load('home/index2.php', ['data' => $data]);
+        $this->template->load('home/index1.php', ['data' => $data]);
 
       //  $this->load->view('search_result', ['data' => $data]);
     }

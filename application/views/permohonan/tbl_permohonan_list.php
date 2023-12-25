@@ -7,12 +7,7 @@
                     <div class="box-header">
                         <h3 class="box-title">PERMOHONAN PENDAFTARAN MEREK</h3>
                     </div>
-                            <?php
-                    $message = $this->session->flashdata('message');
-                    if (!empty($message)) {
-                        echo '<div class="alert alert-success">' . $message . '</div>';
-                    }
-                    ?>
+                            
 
                             <div class="box-body">
                             <div style="padding-bottom: 10px;"'>

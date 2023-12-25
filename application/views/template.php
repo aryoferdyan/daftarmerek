@@ -218,7 +218,8 @@
             <?php
             echo $contents;
             ?>
-
+           
+        
 
             <!-- /.content-wrapper -->
             <footer class="main-footer">

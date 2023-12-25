@@ -125,17 +125,17 @@ class Profil extends CI_Controller
             if ($foto['file_name'] == '') {
                 $data = array(
                     'full_name'     => $this->input->post('full_name', TRUE),
-                    'email'         => $this->input->post('email', TRUE),
-                    'id_user_level' => $this->input->post('id_user_level', TRUE),
-                    'is_aktif'      => $this->input->post('is_aktif', TRUE)
+                    'email'         => $this->input->post('email', TRUE)
+                  //  'id_user_level' => $this->input->post('id_user_level', TRUE),
+                   // 'is_aktif'      => $this->input->post('is_aktif', TRUE)
                 );
             } else {
                 $data = array(
                     'full_name'     => $this->input->post('full_name', TRUE),
                     'email'         => $this->input->post('email', TRUE),
-                    'images'        => $foto['file_name'],
-                    'id_user_level' => $this->input->post('id_user_level', TRUE),
-                    'is_aktif'      => $this->input->post('is_aktif', TRUE)
+                    'images'        => $foto['file_name']
+                   // 'id_user_level' => $this->input->post('id_user_level', TRUE),
+                   // 'is_aktif'      => $this->input->post('is_aktif', TRUE)
                 );
 
                 // ubah foto profil yang aktif

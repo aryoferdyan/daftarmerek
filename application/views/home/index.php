@@ -1,143 +1,274 @@
+<?php
+// Koneksi ke database
+$host = getenv('DB_HOSTNAME');
+$dbuser = getenv('DB_USERNAME');
+$dbpass = getenv('DB_PASSWORD');
+$dbselect = getenv('DB_DATABASE');
+$conn = new mysqli($host, $dbuser, $dbpass, $dbselect);
+// Periksa koneksi
+if ($conn->connect_error) {
+    die("Koneksi gagal: " . $conn->connect_error);
+}
+
+// Inisialisasi default periode
+$selectedPeriod = "daily";
+
+// Periksa apakah formulir telah dikirim
+if (isset($_POST['period'])) {
+    $selectedPeriod = $_POST['period'];
+    $selectedPeriod2 = $_POST['period'];
+}
+
+// Tentukan format tanggal berdasarkan periode yang dipilih
+switch ($selectedPeriod) {
+    case 'daily':
+        $dateFormat = "%Y-%m-%d";
+        $dateFormat2 = "%Y-%m-%d";
+        $currentDate = "YEAR(tanggal) = YEAR(CURDATE()) AND MONTH(tanggal) = MONTH(CURDATE()) AND DAY(tanggal) = DAY(CURDATE())";
+        break;
+    case 'monthly':
+        $dateFormat2 = "%Y-%m";
+        $dateFormat = "%Y-%m-%d";
+        $currentDate = "YEAR(tanggal) = YEAR(CURDATE()) AND MONTH(tanggal) = MONTH(CURDATE())";
+        break;
+    case 'yearly':
+        $dateFormat2 = "%Y";
+        $dateFormat = "%Y-%m-%d";
+        $currentDate = "YEAR(tanggal) = YEAR(CURDATE())";
+        break;
+        default:
+        $dateFormat = "%Y-%m";
+        $dateFormat2 = "%Y-%m-%d";
+
+        $currentDate = "YEAR(tanggal) = YEAR(CURDATE())";
+}
+
+
+
+// Query untuk mengambil data dari tbl_permohonan
+$queryPermohonan = "SELECT DATE_FORMAT(tanggal, '%Y') as formatted_date, COUNT(id_permohonan) as jumlah_permohonan 
+          FROM tbl_permohonan 
+          WHERE $currentDate
+          GROUP BY formatted_date";
+$resultPermohonan = $conn->query($queryPermohonan);
+$rowTotalPermohonan = $resultPermohonan->fetch_assoc();
+$totalPermohonan = $rowTotalPermohonan['jumlah_permohonan'];
+
+$queryOngoing = "SELECT DATE_FORMAT(tanggal, '%Y') as formatted_date, COUNT(id_permohonan) as jumlah_permohonan 
+                    FROM tbl_permohonan 
+                    WHERE $currentDate AND (status = 0 OR status = 2)
+                    GROUP BY formatted_date";
+$resultPermohonan3 = $conn->query($queryOngoing);
+
+// Check if there are rows in the result
+if ($resultPermohonan3 && $resultPermohonan3->num_rows > 0) {
+    // Fetch the first row
+    $rowTotalPermohonan3 = $resultPermohonan3->fetch_assoc();
+    $totalOnprogres = $rowTotalPermohonan3['jumlah_permohonan'];
+} else {
+    // No rows found, set $permohonanDiterima to 0
+    $totalOnprogres = 0;
+}
+
+
+$queryDiterima = "SELECT DATE_FORMAT(tanggal, '%Y') as formatted_date, COUNT(id_permohonan) as jumlah_permohonan 
+                    FROM tbl_permohonan 
+                    WHERE $currentDate AND status = 1
+                    GROUP BY formatted_date";
+$resultPermohonan1 = $conn->query($queryDiterima);
+
+// Check if there are rows in the result
+if ($resultPermohonan1 && $resultPermohonan1->num_rows > 0) {
+    // Fetch the first row
+    $rowTotalPermohonan1 = $resultPermohonan1->fetch_assoc();
+    $permohonanDiterima = $rowTotalPermohonan1['jumlah_permohonan'];
+} else {
+    // No rows found, set $permohonanDiterima to 0
+    $permohonanDiterima = 0;
+}
+
+
+
+// Now $permohonanDiterima contains the desired value or 0 if null
+
+$queryDitolak = "SELECT DATE_FORMAT(tanggal, '$dateFormat') as formatted_date, COUNT(id_permohonan) as jumlah_permohonan 
+                    FROM tbl_permohonan 
+                    WHERE $currentDate AND status = 3
+                    GROUP BY formatted_date";
+$resultPermohonan2 = $conn->query($queryDitolak);
+
+// Check if there are rows in the result
+if ($resultPermohonan2 && $resultPermohonan2->num_rows > 0) {
+    // Fetch the first row
+    $rowTotalPermohonan2 = $resultPermohonan2->fetch_assoc();
+    $permohonanDitolak = $rowTotalPermohonan2['jumlah_permohonan'];
+} else {
+    // No rows found, set $permohonanDitolak to 0
+    $permohonanDitolak = 0;
+}
+
+// Now $permohonanDitolak contains the desired value or 0 if null
+
+
+// Now $permohonanDitolak contains the desired value (either the count or 0 if null)
+
+
+$queryPermohonanx = "SELECT DATE_FORMAT(tanggal, '$dateFormat2') as formatted_date, COUNT(id_permohonan) as jumlah_permohonan 
+          FROM tbl_permohonan 
+          GROUP BY formatted_date";
+$resultPermohonanx = $conn->query($queryPermohonanx);
+// Inisialisasi array untuk data grafik permohonan
+$dataPermohonan = array();
+
+// Loop untuk menambahkan data ke array
+while ($row = $resultPermohonanx->fetch_assoc()) {
+    $dataPermohonan['labels'][] = $row['formatted_date'];
+    $dataPermohonan['data'][] = $row['jumlah_permohonan'];
+}
+
+// Query untuk mengambil data dari tbl_log
+$queryLog = "SELECT DATE_FORMAT(tanggal, '$dateFormat') as formatted_date, COUNT(id_log) as jumlah_log 
+          FROM tbl_log 
+          WHERE $currentDate
+          GROUP BY formatted_date";
+$resultLog = $conn->query($queryLog);
+$totalKunjungan = 0;
+while ($rowTotalLog = $resultLog->fetch_assoc()) {
+    $totalKunjungan += $rowTotalLog['jumlah_log'];
+}
+
+$queryLogx = "SELECT DATE_FORMAT(tanggal, '$dateFormat2') as formatted_date, COUNT(id_log) as jumlah_log 
+          FROM tbl_log 
+          GROUP BY formatted_date";
+$resultLogx = $conn->query($queryLogx);
+// Inisialisasi array untuk data grafik log
+// Initialize an empty array to store log data
+$dataLog = array(); // Initialize an empty array
+
+// Loop untuk menambahkan data ke array
+while ($row = $resultLogx->fetch_assoc()) {
+    $dataLog['labels'][] = $row['formatted_date'];
+    $dataLog['data'][] = $row['jumlah_log'];
+}
+
+// Now $dataLog contains all rows from $resultLog
+    
+
+
+// Tutup koneksi
+$conn->close();
+
+// Konversi data ke format JSON
+$jsonDataPermohonan = json_encode($dataPermohonan);
+$jsonDataLog = json_encode($dataLog);
+?>
+
 <div class="content-wrapper">
     <section class="content">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-warning box-solid">
-    
-                    <div class="box-header">
-                        <h1 class="box-title">Pangkalan Data Merek</h3>
-                    </div>
-        
-                            <div class="box-body">
-                            <div style="padding-bottom: 10px;"'>
-                    <?php
-             
-                
-                    $keyword = isset($_GET['keyword']) ? urlencode($_GET['keyword']) : '';
-                    $api_url = 'https://pdki-indonesia.dgip.go.id/api/search?keyword=' . $keyword . '&page=1&showFilter=true&type=trademark';
 
+<!-- <?php
+// Debugging
+echo "Permohonan JSON: " . json_encode($dataPermohonan) . "\n";
+echo "Log JSON: " . json_encode($dataLog) . "\n";
+?> -->
+        <!-- Formulir untuk memilih periode -->
+        <form method="post" action="">
+            <div class="form-group row">
+                <!-- <label class="col-sm-2 col-form-label">Periode</label> -->
+                <div class="col-sm-4">
+                    <select name="period" class="form-control">
+                        <option value="daily" <?php echo ($selectedPeriod == 'daily') ? 'selected' : ''; ?>>Data Harian</option>
+                        <option value="monthly" <?php echo ($selectedPeriod == 'monthly') ? 'selected' : ''; ?>>Data Bulanan</option>
+                        <option value="yearly" <?php echo ($selectedPeriod == 'yearly') ? 'selected' : ''; ?>>Data Tahunan</option>
+                    </select>
 
-
-                    // Header
-                    $header = [
-                        'Pdki-Signature: PDKI/735032dcbdf964d2c4426c1c2442e1650017fab3c979c42bbb390effc39425041625f60d46edfcd88363d4473bda49da967333c6a21ac6da689fc4321d5ed572'
-                    ];
-
-                    // Pengaturan HTTP untuk mengirimkan header
-                    $options = [
-                        'http' => [
-                            'header' => implode("\r\n", $header),
-                            'method' => 'GET'
-                        ]
-                    ];
-
-                    // Membuat konteks HTTP
-                    $context = stream_context_create($options);
-
-                    // Mengambil respons dari API
-                    $response = file_get_contents($api_url, false, $context);
-
-                    // Mengecek apakah respons berhasil diambil
-                    if ($response === FALSE) {
-                        die('Gagal mengambil respons dari API');
-                    }
-
-                    // Mendekode respons JSON ke dalam array PHP
-                    $json_data = json_decode($response, true);
-
-                    // Mengecek apakah hits.hits ada dalam respons JSON
-                    if (!isset($json_data['hits']['hits'])) {
-                        die('Format respons tidak sesuai. Indeks "hits.hits" tidak ditemukan.');
-                    }
-
-                    // Mengambil data dari indeks 'hits.hits'
-                    $data = $json_data['hits']['hits'];
-                    ?>
-
-                    <h1></h1>
-                    <div style="padding-bottom: 10px;">
-                        <form method="get" action="">
-                            <label for="keyword">Keyword:</label>
-                            <input type="text" name="keyword" id="keyword" value="<?php echo isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : ''; ?>" />
-                            <button class="button-primary" type="submit">Cari</button>
-                        </form>
-                    </div>
-                    
-                    <table>
-                        <thead>
-                        <tr>
-                            <th width=2% style="text-align: center;">No.</th> <!-- Add a new column header for sequence number -->
-                            <th width=10% style="text-align: center;">Tanggal</th>
-                            <th width=auto style="text-align: center;">Nama</th>
-                            <th width=auto style="text-align: center;">Nama Owner</th>
-                            <th width=8% style="text-align: center;">Status</th>
-                            <th width=5% style="text-align: center;">Kesamaan</th> <!-- Add a new column header for similarity -->
-                        </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            // Check if $keyword is empty
-                            if (empty($keyword)) {
-                                echo '<tr><td colspan="6"><strong>Tidak Ada Data</strong></td></tr>';
-                            } else {
-                                // Iteration through data and display in the table
-                                $counter = 1; // Initialize a counter for sequence number
-                                foreach ($data as $item) {
-                                    // Mengecek apakah _source ada dalam data
-                                    if (!isset($item['_source'])) {
-                                        continue;
-                                    }
-
-                                    $source = $item['_source'];
-
-                                    // Calculate similarity (you need to replace this with your similarity calculation logic)
-                                    $userInput = isset($_GET['keyword']) ? $_GET['keyword'] : '';
-                                    $namaMerek = $source['nama_merek'];
-                                    $similarity = calculateSimilarity($userInput, $namaMerek);
-
-                                    echo '<tr>';
-                                    echo '<td style="text-align: center;">' . $counter . '</td>'; // Display the sequence number
-                                    echo '<td style="text-align: center;">' . $source['tanggal_permohonan'] . '</td>';
-                                    echo '<td>' . $source['nama_merek'] . '</td>';
-                                    echo '<td>' . $source['owner'][0]['tm_owner_name'] . '</td>';
-                                    echo '<td style="text-align: center;">' . $source['status_permohonan'] . '</td>';
-                                    echo '<td style="text-align: center;">' . $similarity . " %" . '</td>'; // Display similarity in the new column
-                                    echo '</tr>';
-
-                                    $counter++; // Increment the counter for the next row
-                                }
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                    <!-- <?= print_r($source, true); ?> -->
-
-
-
-
-                    <!-- GRAFIKKKK BRO -->
-                            
-
-                    <?php
-                    function calculateSimilarity($input, $namaMerek)
-                    {
-                        // Convert both strings to lowercase for a case-insensitive comparison
-                        $input = strtolower($input);
-                        $namaMerek = strtolower($namaMerek);
-
-                        // Use the similar_text function to calculate similarity
-                        similar_text($input, $namaMerek, $percentage);
-                       // similar
-                        // Round the percentage to two decimal places
-                        $similarity = round($percentage, 2);
-
-                        return $similarity;
-                    }
-
-                    ?>
-                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <input type="submit" value="Tampilkan" class="btn btn-primary">
+                </div>
+            </div>
+        </form>
+        <div class="col-lg-2 col-6">
+            <div class="small-box bg-primary">
+                <div class="inner">
+                    <h3><?= $totalPermohonan ?></h3>
+                    <p>Total Permohonan Masuk</p>
                 </div>
             </div>
         </div>
+        <div class="col-lg-2 col-6">
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <!-- <h3>12</h3> -->
+                    <h3><?= $totalOnprogres ?></h3>
+                    <p>Total Permohonan Onprogress</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-6">
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3><?= $permohonanDiterima ?></h3>
+                    <p>Total Permohonan Diterima</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-6">
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3><?= $permohonanDitolak ?></h3>
+                    <p>Total Permohonan Ditolak</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-6">
+            <div class="small-box bg-primary">
+                <div class="inner">
+                    <h3><?= $totalKunjungan ?></h3>
+                    <p>Total Log Pengguna</p>
+                </div>
+            </div>
+        </div>
+
+        <canvas id="permohonanChart" width="400" height="200"></canvas>
+        <canvas id="logChart" width="400" height="200"></canvas>
+
+
+<script>
+        var permohonanData = <?php echo json_encode($dataPermohonan); ?>;
+        var logData = <?php echo json_encode($dataLog); ?>;
+
+        function createChart(chartId, chartData, chartLabel, chartColor) {
+            var ctx = document.getElementById(chartId).getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [{
+                        label: chartLabel,
+                        data: chartData.data,
+                        backgroundColor: chartColor,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        createChart('permohonanChart', permohonanData, 'Total Permohonan', 'rgba(75, 192, 192, 1)');
+        createChart('logChart', logData, 'Total Log', 'rgba(255, 99, 132, 1)');
+    </script>
+
+
+
+
     </section>
 </div>

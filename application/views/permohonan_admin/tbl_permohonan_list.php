@@ -11,7 +11,9 @@
         <div class="box-body">
         <div style="padding-bottom: 10px;"'>
         <!-- <?php echo anchor(site_url('admin/create'), '<i class="fa fa-wpforms" aria-hidden="true"></i> Ajukan Permohonan', 'class="btn btn-primary btn-sm"'); ?> -->
-        </div>
+        <?= anchor(site_url('admin/excel'), '<i class="fa fa-file-excel-o" aria-hidden="true"></i> Ekspor Data', 'class="btn btn-success btn-sm"'); ?>
+
+    </div> 
         <table class="table table-bordered table-striped" id="mytable">
             <thead>
                 <tr>
