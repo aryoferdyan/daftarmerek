@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>GARUDA CRUD Generator</title>
+        <title>Sistem Pendaftaran Merek</title>
         <!-- Tell the browser to be responsive to screen width -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
