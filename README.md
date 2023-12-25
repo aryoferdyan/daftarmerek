@@ -1,10 +1,10 @@
-### Cara Install & Setup
-1.silahkan clone atau download repository ini.<br>
-2.silahkan extrack dan rename nama folder menjadi garuda_crud_generator.<br>
-3.buat sebuah database baru dengan nama cigenerator lalu import file cigenerator.sql.<br>
-4.buka web browser dan masukan http://localhost/garuda_crud_generator/ pada address bar.
+### Instalasi
+1.Clone atau download repository ini.<br>
+2.Ekstrak dan rename nama folder menjadi daftarmerek<br>
+3.Buat DB dan import file daftarmerek.sql.<br>
+4.Buka web browser dan masukan http://localhost/daftarmerek/ 
 
-### Autehntifikasi
+### Login Sistem
 Untuk melakukan proses login silahkan gunakan akun default berikut :
 <br>Login Super Admin
 <br>Email : super.admin@gmail.com
