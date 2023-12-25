@@ -1,3 +1,6 @@
+### PROJECT PEMWEB LANJUT
+## SISTEM PENDAFTARAN MEREK
+
 ### Instalasi
 1.Clone atau download repository ini.<br>
 2.Ekstrak dan rename nama folder menjadi daftarmerek<br>
@@ -17,3 +20,9 @@ Untuk melakukan proses login silahkan gunakan akun default berikut :
 <br>Login Pemohon
 <br>Email : pemohon@gmail.com
 <br>Password : 123
+
+
+<br>
+<br>
+<br>
+Oleh Ferdyan Aryo Noviyanto 
