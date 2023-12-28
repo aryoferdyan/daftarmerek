@@ -121,14 +121,11 @@
                     <?php
                     function calculateSimilarity($input, $namaMerek)
                     {
-                        // Convert both strings to lowercase for a case-insensitive comparison
                         $input = strtolower($input);
                         $namaMerek = strtolower($namaMerek);
 
-                        // Use the similar_text function to calculate similarity
                         similar_text($input, $namaMerek, $percentage);
-                       // similar
-                        // Round the percentage to two decimal places
+                    
                         $similarity = round($percentage, 2);
 
                         return $similarity;
